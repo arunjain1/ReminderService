@@ -5,7 +5,8 @@ const app = express();
 const {PORT} = require('./config/serverConfig');
 const apiRoutes = require('./routes/index');
 const db = require('./models/index');
-const { sendBasicEmail } = require('./services/email-service');
+
+const jobs = require("./utils/jobs");
 
 const setupAndStartServer = () => {
 
@@ -19,12 +20,8 @@ const setupAndStartServer = () => {
         if(process.env.DB_SYNC) {
             db.sequelize.sync({alter: true});
         }
-        sendBasicEmail(
-            '"Support" <support@gmail.com>',
-            'profilebuildingsessions@gmail.com',
-            'This is a testing email',
-            'Hey, How are you,I hope you like our services'
-        )
+        jobs();
+        
     });
 }
 
